@@ -22,20 +22,30 @@
 \author{Patrick~Dowler,$^1$, Maria~Arevalo,$^2$, Adrian~Damian,$^1$ Javier~Duran,$^2$ Daniel~Durand,$^1$
 Severin~Gaudet,$^1$ Jonathan~Hargis,$^3$ Brian~Major,$^1$ Brian~McLean,$^3$ Oliver~Oberdorf,$^3$ and David~R.~Rodriguez$^3$}
 
-\affil{$^1$National Research Council Canada, Victoria, British Columbia, Canada}
-\affil{$^2$European Space Astronomy Centre, ???, ???, Spain}
+\affil{$^1$Canadian Astronomy Data Centre, National Research Council Canada, Victoria, British Columbia, Canada}
+\affil{$^2$ESAC Science Data Centre, Villanueva de la Ca'nada, Madrid, Spain}
 \affil{$^3$Space Telescope Science Institute, Baltimore, Maryland, United States of America}
 
-\paperauthor{Patrick~Dowler}{pdowler.cadc@gmail.com}{https://orcid.org/0000-0001-7011-4589}{National Research Council Canada}{Canadian Astronomy Data Centre}{Victoria}{British Columbia}{V9E 2E7}{Canada}
-\paperauthor{Maria~Arevalo}{maria.arevalo@sciops.esa.int}{}{ESAC}{ESAC Science Data Centre}{Villanueva de la Ca’nada}{Madrid}{28691}{Spain}
-\paperauthor{Adrian~Damian}{Author2Email@email.edu}{ORCID_Or_Blank}{Author2 Institution}{Author2 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{Javier~Duran}{javier.duran@sciops.esa.int}{}{ESAC}{ESAC Science Data Centre}{Villanueva de la Ca’nada}{Madrid}{28691}{Spain}
-\paperauthor{Daniel~Durand}{Author2Email@email.edu}{ORCID_Or_Blank}{Author2 Institution}{Author2 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{Severin~Gaudet}{Author2Email@email.edu}{ORCID_Or_Blank}{Author2 Institution}{Author2 Department}{City}{State/Province}{Postal Code}{Country}
+\paperauthor{Patrick~Dowler}{patrick.dowler@nrc-cnrc.gc.ca}{https://orcid.org/0000-0001-7011-4589}{Canadian Astronomy Data Centre}{National Research Council Canada}{Victoria}{British Columbia}{V9E 2E7}{Canada}
+
+\paperauthor{Maria~Arevalo}{maria.arevalo@sciops.esa.int}{}{ESAC}{ESAC Science Data Centre}{Villanueva de la Ca'nada}{Madrid}{28691}{Spain}
+
+\paperauthor{Adrian~Damian}{adrian.damian@nrc-cnrc.gc.ca}{}{Canadian Astronomy Data Centre}{National Research Council Canada}{Victoria}{British Columbia}{V9E 2E7}{Canada}
+
+\paperauthor{Javier~Duran}{javier.duran@sciops.esa.int}{}{ESAC}{ESAC Science Data Centre}{Villanueva de la Ca'nada}{Madrid}{28691}{Spain}
+
+\paperauthor{Daniel~Durand}{daniel.durand@nrc-cnrc.gc.ca}{}{Canadian Astronomy Data Centre}{National Research Council Canada}{Victoria}{British Columbia}{V9E 2E7}{Canada}
+
+\paperauthor{Severin~Gaudet}{severin.gaudet@nrc-cnrc.gc.ca}{http://orcid.org/0000-0001-9281-2361}{Canadian Astronomy Data Centre}{National Research Council Canada}{Victoria}{British Columbia}{V9E 2E7}{Canada}
+
 \paperauthor{Jonathan~Hargis}{jhargis@stsci.edu}{https://orcid.org/0000-0002-8722-9806}{Space Telescope Science Institute}{Mikulski Archive for Space Telescopes}{Baltimore}{MD}{21218}{USA}
-\paperauthor{Brian~Major}{Author2Email@email.edu}{ORCID_Or_Blank}{Author2 Institution}{Author2 Department}{City}{State/Province}{Postal Code}{Country}
+
+\paperauthor{Brian~Major}{brian.major@nrc-cnrc.gc.ca}{http://orcid.org/0000-0001-9263-3048}{Canadian Astronomy Data Centre}{National Research Council Canada}{Victoria}{British Columbia}{V9E 2E7}{Canada}
+
 \paperauthor{Brian~McLean}{mclean@stsci.edu}{https://orcid.org/0000-0002-8058-643X}{Space Telescope Science Institute}{Mikulski Archive for Space Telescopes}{Baltimore}{MD}{21218}{USA}
+
 \paperauthor{Oliver~Oberdorf}{ooberdorf@stsci.edu}{}{Space Telescope Science Institute}{Mikulski Archive for Space Telescopes}{Baltimore}{MD}{21218}{USA}
+
 \paperauthor{David~R.~Rodriguez}{drodriguez@stsci.edu}{https://orcid.org/0000-0003-1286-5231}{Space Telescope Science Institute}{Mikulski Archive for Space Telescopes}{Baltimore}{MD}{21218}{USA}
 
 % leave these commented for the editors to enable them
@@ -52,10 +62,6 @@ Using the common metadata model, services and tools as a base, partners can augm
   
 \end{abstract}
 
-\section{Introduction}
-
-TODO: outline following sections
-
 \section{CAOM Enhancements}
 
 This project required several enhancements to CAOM and resulted in the release of CAOM version 2.3 in 2018.
@@ -66,7 +72,7 @@ We lifted a constraint on the algorithm name for a SimpleObservation so that oth
 
 CalibrationLevel was modified to support new values in IVOA ObsCore \citep{std:ObsCore} (calib\_level) and extended to include planned observations. The DataProductType was converted from an enuemration to an extensible vocabulary with the base vocabulary terms taken from ObsCore (dataproduct\_type); as a vocabulary, new terms can be introduced simply by providing a resolvable URI (typically an http URL) refering to the definition of the new term(s). The ProductType enumeration was also converted to a vocabulary with the base terms from the CAOM-2.2 enumeration values.
 
-Polygon validity (used to describe the spatial coverage of an observation) was restricted to be consistent with IVOA DALI \citep{std:DALI} polygon (simple polygon with counterclockwise winding direction). The previous polymorphic shape and general polygon with disjoint parts was retained to provide a more detailed footprint when necessary.
+Polygon validity (used to describe the spatial coverage of an observation) was restricted to be consistent with IVOA DALI \citep{std:DALI11} polygon (simple polygon with counterclockwise winding direction). The previous polymorphic shape and general polygon with disjoint parts was retained to provide a more detailed footprint when necessary.
 
 A content checksum was added to the Artifact class to support data Synchronisation. In CAOM checksums are expressed as URIs where the scheme is the checksum algorith and the scheme-specific part is an ascii representation (hexidecimal) of the value. We are currently using MD5 checksums for file verification as it provides a good balance of robustness and performance and was supported already by the CADC archive storage system.
 
@@ -113,7 +119,7 @@ For users, MAST makes publication metadata available and ESAC harvests this and 
 
 The MAST portal uses the CAOM database to search the HST metadata. The CADC AdvancedSearch and the ESAC EHST portals provide alternate browser-based user interfaces to search the HST metadata.
 
-CADC provides IVOA services (TAP, SIA \citep{std:SIA}, DataLink \citep{std:DataLink}, SODA \citep{std:SODA}) and IVOA ObsCore data model support as part of their programmatic archive data discovery services. ESAC also provides IVOA services (TAP, SIA, SSA \citep{std:SSA}) based on the HST metadata in their CAOM database.
+CADC provides IVOA services (TAP, SIA \citep{std:SIAv2}, DataLink \citep{std:DataLink}, SODA \citep{std:SODA}) and IVOA ObsCore data model support as part of their programmatic archive data discovery services. ESAC also provides IVOA services (TAP, SIA, SSA \citep{std:SSAP}) based on the HST metadata in their CAOM database.
 
 \bibliography{P10-5}
 
