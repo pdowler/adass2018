@@ -20,12 +20,11 @@
 
 
 \author{Patrick~Dowler,$^1$, Maria~Arevalo,$^2$, Adrian~Damian,$^1$ Javier~Duran,$^2$ Daniel~Durand,$^1$
-Severin~Gaudet,$^1$ Jonathan~Hargis,$^3$ Brian~Major,$^1$ Brian~McLean,$^3$ Oliver~Oberdorf,$^3$ and David~Rodriguez$^3$}
+Severin~Gaudet,$^1$ Jonathan~Hargis,$^3$ Brian~Major,$^1$ Brian~McLean,$^3$ Oliver~Oberdorf,$^3$ and David~R.~Rodriguez$^3$}
 
 \affil{$^1$National Research Council Canada, Victoria, British Columbia, Canada}
-\affil{$^2$European Space Astronomy Centre, Villanueva de la Ca’nada, Madrid, Spain}
-\affil{$^3$Mikulski Archive for Space Telescopes, Baltimore, Maryland, United States of America}
-
+\affil{$^2$European Space Astronomy Centre, ???, ???, Spain}
+\affil{$^3$Space Telescope Science Institute, Baltimore, Maryland, United States of America}
 
 \paperauthor{Patrick~Dowler}{pdowler.cadc@gmail.com}{https://orcid.org/0000-0001-7011-4589}{National Research Council Canada}{Canadian Astronomy Data Centre}{Victoria}{British Columbia}{V9E 2E7}{Canada}
 \paperauthor{Maria~Arevalo}{maria.arevalo@sciops.esa.int}{}{ESAC}{ESAC Science Data Centre}{Villanueva de la Ca’nada}{Madrid}{28691}{Spain}
@@ -33,11 +32,11 @@ Severin~Gaudet,$^1$ Jonathan~Hargis,$^3$ Brian~Major,$^1$ Brian~McLean,$^3$ Oliv
 \paperauthor{Javier~Duran}{javier.duran@sciops.esa.int}{}{ESAC}{ESAC Science Data Centre}{Villanueva de la Ca’nada}{Madrid}{28691}{Spain}
 \paperauthor{Daniel~Durand}{Author2Email@email.edu}{ORCID_Or_Blank}{Author2 Institution}{Author2 Department}{City}{State/Province}{Postal Code}{Country}
 \paperauthor{Severin~Gaudet}{Author2Email@email.edu}{ORCID_Or_Blank}{Author2 Institution}{Author2 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{Jonathan~Hargis}{Author2Email@email.edu}{ORCID_Or_Blank}{Author2 Institution}{Author2 Department}{City}{State/Province}{Postal Code}{Country}
+\paperauthor{Jonathan~Hargis}{jhargis@stsci.edu}{https://orcid.org/0000-0002-8722-9806}{Space Telescope Science Institute}{Mikulski Archive for Space Telescopes}{Baltimore}{MD}{21218}{USA}
 \paperauthor{Brian~Major}{Author2Email@email.edu}{ORCID_Or_Blank}{Author2 Institution}{Author2 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{Brian~McLean}{Author2Email@email.edu}{ORCID_Or_Blank}{Author2 Institution}{Author2 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{Oliver~Oberdorf}{Author2Email@email.edu}{ORCID_Or_Blank}{Author2 Institution}{Author2 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{David~Rodriguez}{Author2Email@email.edu}{ORCID_Or_Blank}{Author2 Institution}{Author2 Department}{City}{State/Province}{Postal Code}{Country}
+\paperauthor{Brian~McLean}{mclean@stsci.edu}{https://orcid.org/0000-0002-8058-643X}{Space Telescope Science Institute}{Mikulski Archive for Space Telescopes}{Baltimore}{MD}{21218}{USA}
+\paperauthor{Oliver~Oberdorf}{ooberdorf@stsci.edu}{}{Space Telescope Science Institute}{Mikulski Archive for Space Telescopes}{Baltimore}{MD}{21218}{USA}
+\paperauthor{David~R.~Rodriguez}{drodriguez@stsci.edu}{https://orcid.org/0000-0003-1286-5231}{Space Telescope Science Institute}{Mikulski Archive for Space Telescopes}{Baltimore}{MD}{21218}{USA}
 
 % leave these commented for the editors to enable them
 %\aindex{Dowler,~P.}
@@ -59,9 +58,9 @@ TODO: outline following sections
 
 \section{CAOM Enhancements}
 
-This project required several enhancements to CAOM and resulted in the release of CAOM version 2.3 in 2018. 
+This project required several enhancements to CAOM and resulted in the release of CAOM version 2.3 in 2018.
 
-Several changes were designed to improve extensibility so that metadata curators could better describe their content and use CAOM as their primary data model. 
+Several changes were designed to improve extensibility so that metadata curators could better describe their content and use CAOM as their primary data model.
 
 We lifted a constraint on the algorithm name for a SimpleObservation so that other values (e.g. simulation) could be used and retained expsoure as the default value.
 
@@ -77,11 +76,11 @@ In order to support robust metadata synchronisation and validation, we defined a
 
 Metadata synchronisation involves an application (caom2harvester) and a web service that implements a simple REST \citep{REST} API. The web service API supports an endpoint with path elements for the collection and the observationID from CAOM (/observations/{collection}/{observationID}). A GET request to the collection returns a list of observations; optional parameters allow control of start and end timestamp values and to limit the number of records in the list. The listing includes the collection, observationID, modification timestamp, and accumulated metadata checksum of the observation  in order of increasing modification timestamp. A GET request to the complete path returns a CAOM  observation document (XML). There is a similar endpoint that provides a list of deleted observations (/deleted/{collection}); the output format is similar to the observation listing, but it includes the internal UUID of the observation and does not include a metadata checksum.
 
-The caom2harvester tool harvests a single collection at a time and normally operates in incremental mode (recent changes) to maintain an up-to-date copy of the metadata. The read-only web service is implemented at MAST while CADC and ESAC operate the caom2harvester application to pull metadata updates from MAST and store in a local database (currently PostgteSQL). For the project, CADC and ESAC could harvest metadata from MAST at approximately 50K observations per hour (significantly faster than the MAST pipeline could generate them) so keeping up to date was easily accomplished with a single cron job. 
+The caom2harvester tool harvests a single collection at a time and normally operates in incremental mode (recent changes) to maintain an up-to-date copy of the metadata. The read-only web service is implemented at MAST while CADC and ESAC operate the caom2harvester application to pull metadata updates from MAST and store in a local database (currently PostgteSQL). For the project, CADC and ESAC could harvest metadata from MAST at approximately 50K observations per hour (significantly faster than the MAST pipeline could generate them) so keeping up to date was easily accomplished with a single cron job.
 
 The caom2harvester keeps track of current harvest state (last timestamp seen) and all failures in the destination database, so it can be killed or crash and be restarted with no difficulty. A retry mode can be used to reharvesting of tracked failures. The outcome of a retry will be one of fix or delete or fail again.
 
-The caom2harvester tool also supports a validation mode to check and maintain the consistency of the entire metadata collection. This mode gets a complete listing from the source (REST API) and local (database) and makes three comparisons: 
+The caom2harvester tool also supports a validation mode to check and maintain the consistency of the entire metadata collection. This mode gets a complete listing from the source (REST API) and local (database) and makes three comparisons:
 \begin{itemize}
 \item{missing observations (in source - not in destination)}
 \item{missed deletions (not in source - in destination)}
@@ -94,7 +93,7 @@ In practice, incidents detected by validation are used to create new failure rec
 
 For this project, we implemented a new file synchronisation tool named caom2-artifact-sync that used the local CAOM database to discover files to retrieve from the source. The discovery mode of this tool uses the same observation timestamps to scan new or changed observations and figure out which artifacts (files) to retrieve. To do this, the tool makes use of a local storage plugin (plugin API defined) to check thee current file status (existence and checksum).
 
-Like the metadata harvesting tool, file synchronisation normally operates in incremental mode: it uses local CAOM metadata to discover new or modified files and schedule downloads. A separate mode performs downloads. A validation mode performs a full comparison of files referenced in CAOM with those in the local storage system and (optionally) schedules downloads to fix any discrepancies. Since CADC and ESAC are only able to servce public data, downloads are initially scheduled for the data release date found in the CAOM metadata. Failed downloads are re-scheduled with a delay that depends on the type of error encountered). The download mode is multi-threaded and we found that 16-48 threads were needed to attain good network utilisation, largely due to overheads in retrieving small files. 
+Like the metadata harvesting tool, file synchronisation normally operates in incremental mode: it uses local CAOM metadata to discover new or modified files and schedule downloads. A separate mode performs downloads. A validation mode performs a full comparison of files referenced in CAOM with those in the local storage system and (optionally) schedules downloads to fix any discrepancies. Since CADC and ESAC are only able to servce public data, downloads are initially scheduled for the data release date found in the CAOM metadata. Failed downloads are re-scheduled with a delay that depends on the type of error encountered). The download mode is multi-threaded and we found that 16-48 threads were needed to attain good network utilisation, largely due to overheads in retrieving small files.
 
 After some network tuning at MAST, CADC and ESAC were able to retrieve ~30TiB per day for the initial downloads; incremental updates due to reprocessing at MAST are picked up and synchronised with minimal effort.
 
@@ -110,9 +109,9 @@ Future work: All partner sites could use client location (geo-ip) to redirect do
 
 For operational support, CADC makes the table of metadata harvest failures visible via a TAP \citep{std:TAP} service; MAST can diagnose and fix metadata issues and once incremental harvesting pciks up the changes the failures are automatically removed. CADC also makes the table of scheduled downloads (including data sync failures) visible via the same TAP service; MAST can diagnose and fix data delivery issues and eventually see the results.
 
-For users, MAST makes publication metadata available and ESAC harvests this and combines it with the CAOM metadata in the EHST interface. 
+For users, MAST makes publication metadata available and ESAC harvests this and combines it with the CAOM metadata in the EHST interface.
 
-The MAST portal uses the CAOM database to search the HST metadata. The CADC AdvancedSearch and the ESAC EHST portals provide alternate browser-based user interfaces to search the HST metadata. 
+The MAST portal uses the CAOM database to search the HST metadata. The CADC AdvancedSearch and the ESAC EHST portals provide alternate browser-based user interfaces to search the HST metadata.
 
 CADC provides IVOA services (TAP, SIA \citep{std:SIA}, DataLink \citep{std:DataLink}, SODA \citep{std:SODA}) and IVOA ObsCore data model support as part of their programmatic archive data discovery services. ESAC also provides IVOA services (TAP, SIA, SSA \citep{std:SSA}) based on the HST metadata in their CAOM database.
 
